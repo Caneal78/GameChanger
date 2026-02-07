@@ -1,13 +1,13 @@
 services:
   app-prod:
-    image: bolt-ai:production
+    image: gamechanger:production
     build:
       context: .
       dockerfile: Dockerfile
-      target: bolt-ai-production
+      target: gamechanger-production
     ports:
       - '5173:5173'
-    env_file: 
+    env_file:
       - '.env'
       - '.env.local'
     environment:
@@ -36,12 +36,12 @@ services:
       - production
 
   app-dev:
-    image: bolt-ai:development
+    image: gamechanger:development
     build:
       context: .
       dockerfile: Dockerfile
       target: development
-    env_file: 
+    env_file:
       - '.env'
       - '.env.local'
     environment:

@@ -3,7 +3,7 @@ import type { Template } from '~/types/template';
 
 export const WORK_DIR_NAME = 'project';
 export const WORK_DIR = `/home/${WORK_DIR_NAME}`;
-export const MODIFICATIONS_TAG_NAME = 'bolt_file_modifications';
+export const MODIFICATIONS_TAG_NAME = 'gamechanger_file_modifications';
 export const MODEL_REGEX = /^\[Model: (.*?)\]\n\n/;
 export const PROVIDER_REGEX = /\[Provider: (.*?)\]\n\n/;
 export const DEFAULT_MODEL = 'claude-3-5-sonnet-latest';
@@ -32,6 +32,42 @@ PROVIDER_LIST.forEach((provider) => {
 // starter Templates
 
 export const STARTER_TEMPLATES: Template[] = [
+  // Video Game Development Templates
+
+  {
+    name: 'Phaser 3 Game',
+    label: 'Phaser 3',
+    description: 'Create 2D games with Phaser.js - the popular HTML5 game framework',
+    githubRepo: 'xKevIsDev/bolt-phaser-template',
+    tags: ['game', 'phaser', '2d', 'html5', 'canvas'],
+    icon: 'i-bolt:game',
+  },
+  {
+    name: 'Three.js 3D Game',
+    label: 'Three.js 3D',
+    description: 'Build immersive 3D games and experiences with Three.js',
+    githubRepo: 'xKevIsDev/bolt-threejs-template',
+    tags: ['game', 'threejs', '3d', 'webgl', 'immersive'],
+    icon: 'i-bolt:3d',
+  },
+  {
+    name: 'Godot Web',
+    label: 'Godot Web',
+    description: 'Export Godot games to web with this starter project',
+    githubRepo: 'xKevIsDev/bolt-godot-web-template',
+    tags: ['game', 'godot', 'web', 'export', '2d', '3d'],
+    icon: 'i-bolt:godot',
+  },
+  {
+    name: 'Kaboom.js Game',
+    label: 'Kaboom.js',
+    description: 'Create fun 2D games quickly with Kaboom.js - perfect for beginners',
+    githubRepo: 'xKevIsDev/bolt-kaboom-template',
+    tags: ['game', 'kaboom', '2d', 'arcade', 'beginner'],
+    icon: 'i-bolt:game-controller',
+  },
+
+  // Web Development Templates
   {
     name: 'Expo App',
     label: 'Expo App',

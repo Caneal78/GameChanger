@@ -1,11 +1,11 @@
 import React from 'react';
 
 const EXAMPLE_PROMPTS = [
-  { text: 'Create a mobile app about bolt.diy' },
-  { text: 'Build a todo app in React using Tailwind' },
-  { text: 'Build a simple blog using Astro' },
-  { text: 'Create a cookie consent form using Material UI' },
-  { text: 'Make a space invaders game' },
+  { text: 'Create a 2D platformer game using Phaser.js' },
+  { text: 'Build a 3D game scene with Three.js' },
+  { text: 'Create a puzzle game with animations' },
+  { text: 'Build an infinite runner game' },
+  { text: 'Create a tower defense game' },
   { text: 'Make a Tic Tac Toe game in html, css and js only' },
 ];
 

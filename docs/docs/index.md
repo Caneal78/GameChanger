@@ -1,6 +1,8 @@
-# Welcome to bolt diy
+# Welcome to GameChanger
 
-bolt.diy allows you to choose the LLM that you use for each prompt! Currently, you can use models from 19 providers including OpenAI, Anthropic, Ollama, OpenRouter, Google/Gemini, LMStudio, Mistral, xAI, HuggingFace, DeepSeek, Groq, Cohere, Together AI, Perplexity AI, Hyperbolic, Moonshot AI (Kimi), Amazon Bedrock, GitHub Models, and more - with easy extensibility to add any other model supported by the Vercel AI SDK! See the instructions below for running this locally and extending it to include more models.
+GameChanger allows you to choose the LLM that you use for each prompt! Currently, you can use models from 19 providers including OpenAI, Anthropic, Ollama, OpenRouter, Google/Gemini, LMStudio, Mistral, xAI, HuggingFace, DeepSeek, Groq, Cohere, Together AI, Perplexity AI, Hyperbolic, Moonshot AI (Kimi), Amazon Bedrock, GitHub Models, and more - with easy extensibility to add any other model supported by the Vercel AI SDK! See the instructions below for running this locally and extending it to include more models.
+
+GameChanger is specifically designed for AI-powered video game development, with specialized templates for Phaser 3, Three.js, Godot Web, and Kaboom.js!
 
 ## Table of Contents
 
@@ -23,6 +25,8 @@ bolt.diy allows you to choose the LLM that you use for each prompt! Currently, y
 - [Supabase Integration](#supabase-integration)
 - [WebContainer and Live Preview](#webcontainer-and-live-preview)
 - [Project Templates](#project-templates)
+  - [Game Development Templates](#game-development-templates)
+  - [Web Development Templates](#web-development-templates)
 - [Available Scripts](#available-scripts)
 - [Development](#development)
 - [Tips and Tricks](#tips-and-tricks)
@@ -31,15 +35,16 @@ bolt.diy allows you to choose the LLM that you use for each prompt! Currently, y
 
 ## Join the community!
 
-[Join the community!](https://thinktank.ottomator.ai)
+[Join the community!](https://discord.gg/gamechanger)
 
-Also [this pinned post in our community](https://thinktank.ottomator.ai/t/videos-tutorial-helpful-content/3243) has a bunch of incredible resources for running and deploying bolt.diy yourself!
+Also [this pinned post in our community](https://thinktank.ottomator.ai/t/videos-tutorial-helpful-content/3243) has a bunch of incredible resources for running and deploying GameChanger yourself!
 
 ---
 
 ## Features
 
 - **AI-powered full-stack web development** directly in your browser with live preview
+- **AI-powered video game development** with specialized game templates and prompts
 - **Support for 19 LLM providers** with an extensible architecture to integrate additional models
 - **Attach images and files to prompts** for better contextual understanding
 - **Integrated terminal** with WebContainer sandbox for running commands and testing
@@ -47,7 +52,7 @@ Also [this pinned post in our community](https://thinktank.ottomator.ai/t/videos
 - **MCP (Model Context Protocol)** integration for enhanced AI capabilities and tool calling
 - **Database integration** with Supabase for backend development
 - **One-click deployments** to Vercel, Netlify, and GitHub Pages
-- **Project templates** for popular frameworks (React, Vue, Angular, Next.js, Astro, etc.)
+- **Project templates** for popular frameworks and game engines (React, Vue, Angular, Next.js, Astro, Phaser 3, Three.js, Godot, Kaboom.js, etc.)
 - **Real-time collaboration** and project sharing
 - **Code diff visualization** and version history
 - **Download projects as ZIP** or push directly to GitHub
@@ -77,26 +82,26 @@ If you're new to installing software from GitHub, don't worry! If you encounter 
 
 ### Clone the Repository
 
-Alternatively, you can download the latest version of the project directly from the [Releases Page](https://github.com/stackblitz-labs/bolt.diy/releases/latest). Simply download the .zip file, extract it, and proceed with the setup instructions below. If you are comfertiable using git then run the command below.
+Alternatively, you can download the latest version of the project directly from the [Releases Page](https://github.com/gamechanger-dev/gamechanger/releases/latest). Simply download the .zip file, extract it, and proceed with the setup instructions below. If you are comfortable using git then run the command below.
 
 Clone the repository using Git:
 
 ```bash
-git clone https://github.com/stackblitz-labs/bolt.diy
-cd bolt.diy
+git clone https://github.com/gamechanger-dev/gamechanger
+cd gamechanger
 ```
 
 ---
 
 ### Entering API Keys
 
-There are two ways to configure your API keys in bolt.diy:
+There are two ways to configure your API keys in GameChanger:
 
 #### 1. Set API Keys in the `.env.local` File
 
 When setting up the application, you will need to add your API keys for the LLMs you wish to use. You can do this by renaming the `.env.example` file to `.env.local` and adding your API keys there.
 
-- On **Mac**, you can find the file at `[your name]/bolt.diy/.env.example`.
+- On **Mac**, you can find the file at `[your name]/gamechanger/.env.example`.
 - On **Windows/Linux**, the path will be similar.
 
 If you can't see the file, it's likely because hidden files are not being shown. On **Mac**, open a Terminal window and enter the following command to show hidden files:
@@ -183,7 +188,7 @@ Once you've configured your keys, the application will be ready to use the selec
    Alternatively, use Docker commands directly:
 
    ```bash
-   docker build . --target bolt-ai-development
+   docker build . --target development
    ```
 
 2. **Run the Container**:  
@@ -199,7 +204,7 @@ Once you've configured your keys, the application will be ready to use the selec
 
 ### Update Your Local Version to the Latest
 
-To keep your local version of bolt.diy up to date with the latest changes, follow these steps for your operating system:
+To keep your local version of GameChanger up to date with the latest changes, follow these steps for your operating system:
 
 #### 1. **Navigate to your project folder**
 
@@ -234,13 +239,13 @@ pnpm install
   pnpm run dev
   ```
 
-This ensures that you're running the latest version of bolt.diy and can take advantage of all the newest features and bug fixes.
+This ensures that you're running the latest version of GameChanger and can take advantage of all the newest features and bug fixes.
 
 ---
 
 ## Adding New LLMs
 
-bolt.diy supports a modular architecture for adding new LLM providers and models. The system is designed to be easily extensible while maintaining consistency across all providers.
+GameChanger supports a modular architecture for adding new LLM providers and models. The system is designed to be easily extensible while maintaining consistency across all providers.
 
 ### Understanding the Provider Architecture
 
@@ -378,7 +383,7 @@ The modular architecture makes it easy to add new providers while maintaining co
 
 ## MCP (Model Context Protocol) Integration
 
-bolt.diy supports MCP (Model Context Protocol) servers to extend AI capabilities with external tools and services. MCP allows you to connect various tools and services that the AI can use during conversations.
+GameChanger supports MCP (Model Context Protocol) servers to extend AI capabilities with external tools and services. MCP allows you to connect various tools and services that the AI can use during conversations.
 
 ### Setting up MCP Servers
 
@@ -400,7 +405,7 @@ The MCP integration enhances the AI's ability to perform complex tasks by giving
 
 ## Git Integration and Version Control
 
-bolt.diy provides comprehensive Git integration for version control, collaboration, and project management.
+GameChanger provides comprehensive Git integration for version control, collaboration, and project management.
 
 ### GitHub Integration
 
@@ -427,14 +432,14 @@ bolt.diy provides comprehensive Git integration for version control, collaborati
 
 ## Deployment Options
 
-bolt.diy provides one-click deployment to popular hosting platforms, making it easy to share your projects with the world.
+GameChanger provides one-click deployment to popular hosting platforms, making it easy to share your projects with the world.
 
 ### Supported Platforms
 
 #### Vercel Deployment
 1. Connect your Vercel account in Settings → Connections → Vercel
 2. Click the deploy button in your project
-3. bolt.diy automatically builds and deploys your project
+3. GameChanger automatically builds and deploys your project
 4. Get a live URL instantly with Vercel's global CDN
 
 #### Netlify Deployment
@@ -461,13 +466,13 @@ bolt.diy provides one-click deployment to popular hosting platforms, making it e
 
 ## Supabase Integration
 
-bolt.diy integrates with Supabase to provide backend database functionality, authentication, and real-time features for your applications.
+GameChanger integrates with Supabase to provide backend database functionality, authentication, and real-time features for your applications.
 
 ### Setting up Supabase
 
 1. Create a Supabase project at [supabase.com](https://supabase.com)
 2. Get your project URL and API keys from the Supabase dashboard
-3. Configure the connection in your bolt.diy project
+3. Configure the connection in your GameChanger project
 4. Use the Supabase tools to interact with your database
 
 ### Database Features
@@ -493,7 +498,7 @@ Supabase integration makes it easy to build full-stack applications with a robus
 
 ## WebContainer and Live Preview
 
-bolt.diy uses WebContainer technology to provide a secure, isolated development environment with live preview capabilities.
+GameChanger uses WebContainer technology to provide a secure, isolated development environment with live preview capabilities.
 
 ### WebContainer Features
 
@@ -518,6 +523,7 @@ WebContainer supports all major JavaScript frameworks and tools:
 - Next.js, Nuxt, Astro, Remix
 - Vite, Webpack, Parcel
 - Node.js, npm, pnpm, yarn
+- Phaser 3, Three.js, Godot Web exports
 - And many more...
 
 The WebContainer integration provides a seamless development experience without the need for local setup.
@@ -526,41 +532,59 @@ The WebContainer integration provides a seamless development experience without 
 
 ## Project Templates
 
-bolt.diy comes with a comprehensive collection of starter templates to help you quickly bootstrap your projects. Choose from popular frameworks and technologies:
+GameChanger comes with a comprehensive collection of starter templates to help you quickly bootstrap your projects. Choose from popular frameworks, game engines, and technologies:
 
-### Frontend Frameworks
+### Game Development Templates
+
+GameChanger is specifically designed for video game development with AI! Here are the specialized game templates:
+
+- **Phaser 3** - Create 2D games with the popular HTML5 game framework
+- **Three.js 3D** - Build immersive 3D games and experiences
+- **Godot Web** - Export Godot games to the web
+- **Kaboom.js** - Create fun 2D games quickly, perfect for beginners
+
+### Web Development Templates
+
+#### Frontend Frameworks
 - **React + Vite** - Modern React setup with TypeScript
 - **Vue.js** - Progressive JavaScript framework
 - **Angular** - Enterprise-ready framework
 - **Svelte** - Compiler-based framework for fast apps
 - **SolidJS** - Reactive framework with fine-grained updates
 
-### Full-Stack Frameworks
+#### Full-Stack Frameworks
 - **Next.js with shadcn/ui** - React framework with UI components
 - **Astro** - Static site generator for content-focused sites
 - **Qwik** - Resumable framework for instant loading
 - **Remix** - Full-stack React framework
 - **Nuxt** - Vue.js meta-framework
 
-### Mobile & Cross-Platform
+#### Mobile & Cross-Platform
 - **Expo App** - React Native with Expo
 - **React Native** - Cross-platform mobile development
 
-### Presentation & Content
+#### Presentation & Content
 - **Slidev** - Developer-friendly presentations
 - **Astro Basic** - Lightweight static sites
 
-### Vanilla JavaScript
+#### Vanilla JavaScript
 - **Vanilla Vite** - Minimal JavaScript setup
 - **Vite TypeScript** - TypeScript without framework
 
 ### Getting Started with Templates
 
-1. Start a new project in bolt.diy
+1. Start a new project in GameChanger
 2. Browse available templates in the starter selection
-3. Select your preferred technology stack
+3. Select your preferred technology stack or game engine
 4. The AI will scaffold your project with best practices
 5. Begin development immediately with live preview
+
+For game development, try prompts like:
+- "Create a 2D platformer game using Phaser.js"
+- "Build a 3D game scene with Three.js"
+- "Create a puzzle game with animations"
+- "Build an infinite runner game"
+- "Create a tower defense game"
 
 All templates are pre-configured with modern tooling, linting, and build processes for immediate productivity.
 
@@ -617,13 +641,13 @@ This will start the Remix Vite development server. You will need Google Chrome C
 ## Getting Help & Resources
 
 ### Help Icon in Sidebar
-bolt.diy includes a convenient help icon (?) in the sidebar that provides quick access to comprehensive documentation. Simply click the help icon to open the full documentation in a new tab.
+GameChanger includes a convenient help icon (?) in the sidebar that provides quick access to comprehensive documentation. Simply click the help icon to open the full documentation in a new tab.
 
 The documentation includes:
 - **Complete setup guides** for all supported providers
 - **Feature explanations** for advanced capabilities
 - **Troubleshooting guides** for common issues
-- **Best practices** for optimal usage
+- **Best practices** for optimal usages
 - **FAQ section** with detailed answers
 
 ### Community Support
@@ -633,14 +657,20 @@ The documentation includes:
 
 ## Tips and Tricks
 
-Here are some tips to get the most out of bolt.diy:
+Here are some tips to get the most out of GameChanger:
 
-- **Be specific about your stack**: If you want to use specific frameworks or libraries (like Astro, Tailwind, ShadCN, or any other popular JavaScript framework), mention them in your initial prompt to ensure Bolt scaffolds the project accordingly.
+- **Be specific about your stack**: If you want to use specific frameworks or libraries (like Astro, Tailwind, ShadCN, Phaser 3, Three.js, or any other popular JavaScript framework or game engine), mention them in your initial prompt to ensure GameChanger scaffolds the project accordingly.
 
 - **Use the enhance prompt icon**: Before sending your prompt, try clicking the 'enhance' icon to have the AI model help you refine your prompt, then edit the results before submitting.
 
-- **Scaffold the basics first, then add features**: Make sure the basic structure of your application is in place before diving into more advanced functionality. This helps Bolt understand the foundation of your project and ensure everything is wired up right before building out more advanced functionality.
+- **Scaffold the basics first, then add features**: Make sure the basic structure of your application or game is in place before diving into more advanced functionality. This helps GameChanger understand the foundation of your project and ensure everything is wired up right before building out more advanced functionality.
 
-- **Batch simple instructions**: Save time by combining simple instructions into one message. For example, you can ask Bolt to change the color scheme, add mobile responsiveness, and restart the dev server, all in one go saving you time and reducing API credit consumption significantly.
+- **Batch simple instructions**: Save time by combining simple instructions into one message. For example, you can ask GameChanger to change the color scheme, add mobile responsiveness, and restart the dev server, all in one go saving you time and reducing API credit consumption significantly.
 
 - **Access documentation quickly**: Use the help icon (?) in the sidebar for instant access to guides, troubleshooting, and best practices.
+
+- **Use game-specific prompts**: For game development, try detailed prompts like:
+  - "Create a 2D platformer with player movement, jumping, and collectible coins"
+  - "Build a 3D scene with a player character and basic physics"
+  - "Create a puzzle game with drag-and-drop mechanics"
+

@@ -16,11 +16,12 @@ let commitJson = {
 
 console.log(`
 ★═══════════════════════════════════════★
-          B O L T . D I Y
-         ⚡️  Welcome  ⚡️
+      G A M E C H A N G E R
+    🎮 AI Video Game Development 🎮
 ★═══════════════════════════════════════★
 `);
 console.log('📍 Current Version Tag:', `v${commitJson.version}`);
 console.log('📍 Current Commit Version:', commitJson.hash);
+console.log('  Build games faster with AI!');
 console.log('  Please wait until the URL appears here');
 console.log('★═══════════════════════════════════════★');
