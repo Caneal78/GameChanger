@@ -581,6 +581,11 @@ export class ActionRunner {
   }> {
     const trimmedCommand = command.trim();
 
+    // Handle GitHub CLI commands
+    if (trimmedCommand.startsWith('gh ')) {
+      return this.#validateGitHubCLICommand(trimmedCommand);
+    }
+
     // Handle rm commands that might fail due to missing files
     if (trimmedCommand.startsWith('rm ') && !trimmedCommand.includes(' -f')) {
       const rmMatch = trimmedCommand.match(/^rm\s+(.+)$/);
@@ -667,6 +672,213 @@ export class ActionRunner {
     }
 
     return { shouldModify: false };
+  }
+
+  /**
+   * Validate GitHub CLI commands
+   * Checks for common issues and provides helpful suggestions
+   */
+  async #validateGitHubCLICommand(command: string): Promise<{
+    shouldModify: boolean;
+    modifiedCommand?: string;
+    warning?: string;
+  }> {
+    const parts = command.split(/\s+/);
+    const baseCommand = parts[1]?.toLowerCase() || '';
+    const subCommand = parts[2]?.toLowerCase() || '';
+
+    // Allowed GitHub CLI commands (whitelist for security)
+    const allowedCommands = [
+      'version',
+      'auth',
+      'repo',
+      'issue',
+      'pr',
+      'workflow',
+      'api',
+      'gist',
+      'secret',
+      'ssh-key',
+    ];
+
+    // Check if command is in whitelist
+    const isAllowed = allowedCommands.some((cmd) => baseCommand.startsWith(cmd));
+
+    if (!isAllowed) {
+      return {
+        shouldModify: false,
+        warning: `GitHub CLI command '${baseCommand}' is not supported or not allowed. Supported commands: ${allowedCommands.join(', ')}`,
+      };
+    }
+
+    // Handle specific command validations
+
+    // gh auth login without --web flag (interactive)
+    if (baseCommand === 'auth' && subCommand === 'login') {
+      if (!command.includes('--web') && !command.includes('--hostname')) {
+        return {
+          shouldModify: true,
+          modifiedCommand: command.replace('auth login', 'auth login --web'),
+          warning: 'Added --web flag for browser-based authentication',
+        };
+      }
+    }
+
+    // gh repo clone without target directory
+    if (baseCommand === 'repo' && subCommand === 'clone') {
+      const repoUrl = parts[3];
+      const targetDir = parts[4];
+
+      if (repoUrl && !targetDir) {
+        // Extract repo name from URL for auto-completion
+        const repoNameMatch = repoUrl.match(/([^/]+)\/?$/);
+        const autoDir = repoNameMatch ? repoNameMatch[1].replace(/\.git$/, '') : undefined;
+
+        if (autoDir) {
+          return {
+            shouldModify: true,
+            modifiedCommand: `${command} ${autoDir}`,
+            warning: `Added target directory '${autoDir}' based on repository name`,
+          };
+        }
+      }
+    }
+
+    // gh api - suggest using proper headers for authentication
+    if (baseCommand === 'api' && !command.includes('-H')) {
+      return {
+        shouldModify: false,
+        warning: 'For authenticated API requests, consider using: gh api <endpoint> -H "Authorization: token $GITHUB_TOKEN"',
+      };
+    }
+
+    // gh pr checkout without local branch name
+    if (baseCommand === 'pr' && subCommand === 'checkout') {
+      const prNumber = parts[3];
+
+      if (prNumber && !isNaN(Number(prNumber))) {
+        return {
+          shouldModify: false,
+          warning: `Note: Checking out PR #${prNumber} will create a local branch. Use 'gh pr checkout ${prNumber} --branch <name>' to specify a branch name.`,
+        };
+      }
+    }
+
+    return { shouldModify: false };
+  }
+
+  /**
+   * Create enhanced error messages for GitHub CLI commands
+   */
+  #createGitHubCLIError(command: string, exitCode: number | undefined, output: string | undefined): {
+    title: string;
+    details: string;
+  } {
+    const trimmedCommand = command.trim();
+    const parts = trimmedCommand.split(/\s+/);
+    const baseCommand = parts[1] || '';
+    const subCommand = parts[2] || '';
+
+    // Common GitHub CLI error patterns
+    const errorPatterns = [
+      {
+        pattern: /authentication failed/i,
+        title: 'GitHub Authentication Failed',
+        getMessage: () =>
+          `GitHub CLI authentication failed.\n\nSuggestion: Run 'gh auth login' to authenticate, or check your GitHub token permissions.`,
+      },
+      {
+        pattern: /could not determine repository/i,
+        title: 'Repository Not Found',
+        getMessage: () =>
+          `Could not determine the repository.\n\nSuggestion: Ensure you're in a git repository or specify the full repository path (owner/repo).`,
+      },
+      {
+        pattern: /no such PR/i,
+        title: 'Pull Request Not Found',
+        getMessage: () =>
+          `The specified pull request does not exist or you don't have access.\n\nSuggestion: Use 'gh pr list' to see available pull requests.`,
+      },
+      {
+        pattern: /no such issue/i,
+        title: 'Issue Not Found',
+        getMessage: () =>
+          `The specified issue does not exist or you don't have access.\n\nSuggestion: Use 'gh issue list' to see available issues.`,
+      },
+      {
+        pattern: /could not resolve to a repository/i,
+        title: 'Repository Resolution Failed',
+        getMessage: () =>
+          `Could not resolve the repository reference.\n\nSuggestion: Ensure the repository exists and you have access. Use 'owner/repo' format.`,
+      },
+      {
+        pattern: /resource not found/i,
+        title: 'Resource Not Found',
+        getMessage: () =>
+          `The requested resource was not found.\n\nSuggestion: Check the URL or identifier and ensure you have proper permissions.`,
+      },
+      {
+        pattern: /forbidden/i,
+        title: 'Permission Denied',
+        getMessage: () =>
+          `You don't have permission to access this resource.\n\nSuggestion: Check your GitHub token permissions or repository access level.`,
+      },
+      {
+        pattern: /requires authentication/i,
+        title: 'Authentication Required',
+        getMessage: () =>
+          `This operation requires authentication.\n\nSuggestion: Run 'gh auth login' to authenticate with GitHub.`,
+      },
+    ];
+
+    // Try to match known error patterns
+    for (const errorPattern of errorPatterns) {
+      if (output && errorPattern.pattern.test(output)) {
+        return {
+          title: errorPattern.title,
+          details: errorPattern.getMessage(),
+        };
+      }
+    }
+
+    // Command-specific error messages
+    if (baseCommand === 'auth') {
+      if (subCommand === 'status') {
+        return {
+          title: 'Not Authenticated',
+          details: `You are not authenticated with GitHub.\n\nRun 'gh auth login' to authenticate, or check 'gh auth status' for more details.`,
+        };
+      }
+    }
+
+    if (baseCommand === 'repo') {
+      if (subCommand === 'clone') {
+        return {
+          title: 'Clone Failed',
+          details: `Failed to clone the repository.\n\nSuggestion: Check the repository URL and ensure it exists and is accessible.`,
+        };
+      }
+    }
+
+    if (baseCommand === 'pr') {
+      return {
+        title: 'Pull Request Operation Failed',
+        details: `Failed to perform pull request operation.\n\nOutput: ${output || 'No output available'}\n\nSuggestion: Check PR number and ensure you have proper permissions.`,
+      };
+    }
+
+    if (baseCommand === 'issue') {
+      return {
+        title: 'Issue Operation Failed',
+        details: `Failed to perform issue operation.\n\nOutput: ${output || 'No output available'}\n\nSuggestion: Check issue number and ensure you have proper permissions.`,
+      };
+    }
+
+    // Generic GitHub CLI error
+    return {
+      title: `GitHub CLI Command Failed (exit code: ${exitCode})`,
+      details: `Command: ${trimmedCommand}\n\nOutput: ${output || 'No output available'}\n\nSuggestion: Check the command syntax and your GitHub permissions.`,
+    };
   }
 
   #createEnhancedShellError(

@@ -5,6 +5,7 @@ import { LoadingState, ErrorState, ConnectionTestIndicator, RepositoryCard } fro
 import { GitHubConnection } from './components/GitHubConnection';
 import { GitHubUserProfile } from './components/GitHubUserProfile';
 import { GitHubStats } from './components/GitHubStats';
+import { GitHubCLIConfig } from './GitHubCLIConfig';
 import { Button } from '~/components/ui/Button';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '~/components/ui/Collapsible';
 import { classNames } from '~/utils/classNames';
@@ -275,6 +276,11 @@ export default function GitHubTab() {
             <GitHubCacheManager showStats={true} />
           </div>
         )}
+
+        {/* GitHub CLI Section */}
+        <div className="pt-6 border-t border-bolt-elements-borderColor">
+          <GitHubCLIConfig />
+        </div>
       </div>
     </GitHubErrorBoundary>
   );

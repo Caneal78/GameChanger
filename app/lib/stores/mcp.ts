@@ -9,6 +9,54 @@ type MCPSettings = {
   maxLLMSteps: number;
 };
 
+// GitHub CLI paths for different platforms
+const GITHUB_CLI_PATHS = {
+  windows: 'C:\\users\\neal7\\devtools\\github cli\\bin\\gh.exe',
+  linux: '/usr/local/bin/gh',
+  macos: '/usr/local/bin/gh',
+};
+
+// Detect current platform
+const getPlatform = (): 'windows' | 'linux' | 'macos' => {
+  if (typeof navigator !== 'undefined' && navigator.platform) {
+    if (navigator.platform.includes('Win')) return 'windows';
+    if (navigator.platform.includes('Mac')) return 'macos';
+    if (navigator.platform.includes('Linux')) return 'linux';
+  }
+  return 'windows'; // Default to Windows for local development
+};
+
+// Check if GitHub CLI is available
+const isGitHubCLIAvailable = (): boolean => {
+  if (!isBrowser) return false;
+
+  // For browser environment, we'll check via MCP server
+  // This is a placeholder check - actual availability is determined by MCP
+  return true;
+};
+
+// Default GitHub CLI configuration
+const getDefaultGitHubCLIConfig = () => {
+  const platform = getPlatform();
+
+  return {
+    github: {
+      type: 'stdio' as const,
+      command: GITHUB_CLI_PATHS[platform],
+      args: ['api', '--hostname', 'github.com'],
+      env: {},
+      cwd: GITHUB_CLI_PATHS[platform].replace('\\bin\\gh.exe', ''),
+    },
+    'github-cli': {
+      type: 'stdio' as const,
+      command: GITHUB_CLI_PATHS[platform],
+      args: [],
+      env: {},
+      cwd: GITHUB_CLI_PATHS[platform].replace('\\bin\\gh.exe', ''),
+    },
+  };
+};
+
 const defaultSettings = {
   maxLLMSteps: 5,
   mcpConfig: {
